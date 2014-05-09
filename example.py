@@ -51,5 +51,8 @@ cuantity.aggregator = 'avg'
 sales.add_measure(cuantity)
 
 
-# Finally, we call the generation process
+# Finally, we call the generation process generating to a file
 generate(sales_schema)
+
+# We can also print it to stdout
+print generate(sales_schema, output=1)

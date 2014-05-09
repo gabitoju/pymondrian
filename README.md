@@ -1,5 +1,5 @@
-# PyMondrian
-
+PyMondrian
+==========
 
 PyMondrian is a Python schema an DW generator for the Mondrian OLAP engine.
 
@@ -11,11 +11,13 @@ The XML schema can be generated to a file or returned as a string.
 
 The generated schema is based on Mondrian 3 according to the XML model for Mondrian schemas available at [http://mondrian.pentaho.com/documentation/xml_schema.php]().
 
-## Usage
+Usage
+-----
 
 A working example is available at [https://github.com/gabitoju/pymondrian/blob/master/example.py]().
 
-## Current version features
+Current version features
+-----
 
 PyMondrian 0.1 generates the most basic schema in order to have a working OLAP Mondrian cube.
 
@@ -29,9 +31,33 @@ The available elements are:
 
 DDL SQL generation is not yeat supported.
 
-## API
+Using not implemented attributes
+-----
 
-## Todo
+Even though not all the attributes of the available elements have been implemented, it is possible to add them in a very simple way.
+
+This code snippet shows how to do that:
+    
+    # Import the Attribute class
+    from pymondrian.core.attribute import Attribute
+
+    # Let's add the formatString to a meassure
+    format_string = Attribute(xml_attribute_name='formatString', value='####')
+    
+    # Now we assign it to the meassure like this
+    cuantity._format_string = format_string
+
+You can name the attribute whatever way you like it but thw following rules must be respected:
+- The xml_attribute_name property should be named as the Mondrian attribute is named
+- The property that contains the Attribute instance must start with '_'
+
+API
+-----
+
+
+Todo
+-----
+
 - Implement all the attributes of the current available elements
 - Implement Calculated Member and Key Expressions
 - Implement DDL SQL generator

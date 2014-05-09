@@ -2,6 +2,7 @@
 
 from pymondrian.schema import Schema, Cube, Table, Dimension, Level, Measure
 from pymondrian.generator import generate
+from pymondrian.core.attribute import Attribute
 
 # Create a new schema
 sales_schema = Schema(name='SalesSchema',
@@ -24,7 +25,7 @@ We add the levels to that hierarchy.
 year = Level(name='Year', column='Year', level_type='TimeYears')
 month = Level(name='Month', column='Month', name_column='MonthName',
               level_type='TimeMonths')
-day = Level(name='Day', column='DateKey', level_type='TimeDays')
+day = Level(name='Day', column='DateKey', name_column='Day', level_type='TimeDays')
 dim_date.add_level_to_hierarchy(hierarchy=0, level=year)
 dim_date.add_level_to_hierarchy(hierarchy=0, level=month)
 dim_date.add_level_to_hierarchy(hierarchy=0, level=day)
@@ -47,6 +48,8 @@ sales.add_dimension(dim_product)
 cuantity = Measure(name='Cuantity', column='Cuantity')
 # Set the aggregation function
 cuantity.aggregator = 'avg'
+# formatString is not yeat implemented but you can do this to add it
+cuantity._format_string = Attribute(xml_attribute_name='formatString', value='####')
 # Add it to the cube
 sales.add_measure(cuantity)
 

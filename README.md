@@ -7,7 +7,7 @@ With PyMondrian you create Python objetcs that are mapped into a Mondrian schema
 
 PyMondrian also generates the DDL SQL scripts to create the datawarehouse tables.
 
-The XML schema can be generated to a file or stdout.
+The XML schema can be generated to a file or returned as a string.
 
 The generated schema is based on Mondrian 3 according to the XML model for Mondrian schemas available at [http://mondrian.pentaho.com/documentation/xml_schema.php]().
 

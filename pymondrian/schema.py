@@ -35,6 +35,7 @@ class Schema(SchemaElement):
         SchemaElement.__init__(self, name)
         self._description = Attribute('description', description)
         self._measures_caption = Attribute('measuresCaption', measures_caption)
+        self._default_role = Attribute('defaultRole', default_role)
         self._cubes = []
 
     @property
@@ -53,6 +54,14 @@ class Schema(SchemaElement):
     def measures_caption(self, measures_caption):
         self._measures_caption.value = measures_caption
 
+    @property
+    def default_role(self):
+        return self._default_role
+
+    @default_role.setter
+    def default_role(self, default_role):
+        self._default_role.value = default_role
+
     def add_cube(self, cube):
         for e in self._cubes:
             if e.name == cube.name:
@@ -60,16 +69,27 @@ class Schema(SchemaElement):
                                 "{1}"'''.format(cube.name, self.name))
         self._cubes.append(cube)
 
+    def remove_cube(self, cube):
+        super(Schema, self)._remove_child(cube, self._cubes, type(Cube))
+
+    def get_cube(self, cube_name):
+        for e in self._cubes:
+            if e.name == cube_name:
+                return e
+
+        return None
+
 
 class Cube(SchemaElement):
     def __init__(self, name, description=None, caption=None, cache=True,
-                 enabled=True, visible=True):
+                 enabled=True, visible=True, default_measure=None):
         SchemaElement.__init__(self, name)
         self._description = Attribute('description', description)
         self._caption = Attribute('caption', caption)
         self._cache = Attribute('cache', cache)
         self._enabled = Attribute('enabled', enabled)
         self._visible = Attribute('visible', visible)
+        self._default_measure = Attribute('defaultMeasure', default_measure)
         self._afact = None
         self._dimensions = []
         self._measures = []
@@ -114,6 +134,14 @@ class Cube(SchemaElement):
     def fact(self, fact):
         self._afact = fact
 
+    @property
+    def default_measure(self):
+        return self._default_measure
+
+    @default_measure.setter
+    def default_measure(self, default_measure):
+        self._default_measure = default_measure
+
     def add_dimension(self, dimension):
         for e in self._dimensions:
             if e.name == dimension.name:
@@ -121,12 +149,30 @@ class Cube(SchemaElement):
                                 "{1}"'''.format(dimension.name, self.name))
         self._dimensions.append(dimension)
 
+    def remove_dimension(self, dimension):
+        super(Cube, self)._remove_child(dimension, self._dimensions, type(Dimension))
+
+    def get_dimension(self, dimension_name):
+        for e in self._dimensions:
+            if e.name == dimension_name:
+                return e
+        return None
+
     def add_measure(self, measure):
         for e in self._measures:
             if e.name == measure.name:
                 raise Exception('''Measure "{0}" already exists in cube
                                 "{1}"'''.format(measure.name, self.name))
         self._measures.append(measure)
+
+    def remove_measure(self, measure):
+        super(Cube, self)._remove_child(measure, self._measures, type(Measure))
+
+    def get_measure(self, measure_name):
+        for e in self._measures:
+            if e.name == measure_name:
+                return e
+        return None
 
 
 class Table(SchemaElement):
@@ -282,19 +328,8 @@ class Dimension(CubeDimension):
             return self._hierarchies[hierarchy_index]
                     
     def remove_hierarchy(self, hierarchy):
-        if type(hierarchy) is int:
-            if hierarchy >= 0 and hierarchy < len(self._hierarchies):
-                self._hierarchies.pop(hierarchy)
-        elif type(hierarchy) is str:
-            hierarchy_index = -1
-            for e in self._hierarchies:
-                hierarchy_index += 1
-                if e.name == hierarchy:
-                    del self._hierarchies[hierarchy_index]
-                    break
-        elif type(hierarchy) is Hierarchy:
-            hierarchy_index = self._hierarchies.index(hierarchy)
-            del self._hierarchies[hierarchy_index]
+        super(Dimension, self)._remove_child(hierarchy, self._hierarchies,
+              type(Hierarchy))
 
 
 class Level(SchemaElement):

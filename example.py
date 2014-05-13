@@ -54,8 +54,17 @@ cuantity._format_string = Attribute(xml_attribute_name='formatString', value='##
 sales.add_measure(cuantity)
 
 
+# Get cube by name
+nm_cube = sales_schema.get_cube('Sales')
+print nm_cube.name
+
+# Try to get a cube that doesn't exits
+none_cube = sales_schema.get_cube('Dumb_Cube')
+print none_cube
+
 # Finally, we call the generation process generating to a file
 generate(sales_schema)
+
 
 # We can also print it to stdout
 print generate(sales_schema, output=1)

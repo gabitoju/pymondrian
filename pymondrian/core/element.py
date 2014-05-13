@@ -95,6 +95,22 @@ class SchemaElement(object):
     def add_annotation(self, annotation):
         self._annotations.add(annotation, self)
 
+    def remove_child(self, child, collection, obj_type):
+        if type(child) is int:
+            if child >= 0 and child < len(collection):
+                del collection[child]
+        elif type(child) is str:
+            child_index = -1
+            for e in collection:
+                child_index += 1
+                if e.name == child:
+                    del collection[child_index]
+                    break
+        elif isinstance(child, obj_type):
+            child_index = collection.index(child)
+            del collection[child_index]
+        
+
     def to_xml(self):
         node = Element(self.__class__.__name__, {})
         for el in dir(self):

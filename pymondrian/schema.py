@@ -199,13 +199,135 @@ class Table(SchemaElement):
 
 
 class Hierarchy(SchemaElement):
-    def __init__(self, name, visible=True, has_all=True):
+    def __init__(self, name, visible=True, has_all=True, all_member_name=None,
+                 all_member_caption=None, all_level_name=None,
+                 primary_key=None, primary_key_table=None,
+                 default_member=None, member_reader_class=None, caption=None,
+                 description=None, unique_key_level_name=None):
         SchemaElement.__init__(self, name)
         self._visible = Attribute('visible', visible)
         self._has_all = Attribute('hasAll', has_all)
+        self._all_member_name = Attribute('allMemberName', all_member_name)
+        self._all_member_caption = Attribute('allMemberCaption',
+                                             all_member_caption)
+        self._all_level_name = Attribute('allLevelName', all_level_name)
+        self._primary_key = Attribute('primaryKey', primary_key)
+        self._primary_key_table = Attribute('primaryKeyTable',
+                                             primary_key_table)
+        self._default_member = Attribute('defaultMember', default_member)
+        self._member_reader_class = Attribute('memberReaderClass',
+                                               member_reader_class)
+        self._caption = Attribute('caption', caption)
+        self._description = Attribute('description', description)
+        self._unique_key_level_name = Attribute('uniqueKeyLevelName',
+                                                unique_key_level_name)
         self._atable = Table('dim_' + name.lower())
         self._levels = []
 
+    @property
+    def visible(self):
+        return self._visible
+
+    @visible.setter
+    def visible(self, visible):
+        self._visible.value = visible
+
+    @property
+    def has_all(self):
+        return self._has_alll
+
+    @has_all.setter
+    def has_all(self, has_all):
+        self._has_all.value = has_all
+
+    @property
+    def all_member_name(self):
+        return self._all_member_name
+
+    @all_member_name.setter
+    def all_member_name(self, all_member_name):
+        self._all_member_name.value = all_member_name
+
+    @property
+    def all_member_caption(self):
+        return self._all_member_caption
+
+    @all_member_caption.setter
+    def all_member_caption(self, all_member_caption):
+        self._all_member_caption.value = all_member_caption
+
+    @property
+    def all_level_name(self):
+        return self._all_level_name
+
+    @all_level_name.setter
+    def all_level_name(self, all_level_name):
+        self._all_level_name.value = table
+
+    @property
+    def primary_key(self):
+        return self._primay_key
+
+    @primary_key.setter
+    def primary_key(self, primary_key):
+        self._primary_key.value = primary_key
+
+    @property
+    def primary_key_table(self):
+        return self._primary_key_table
+
+    @primary_key_table.setter
+    def primary_key_table(self, primary_key_table):
+        self._primary_key_table.value = primary_key_table
+
+    @property
+    def default_member(self):
+        return self._default_member
+
+    @default_member.setter
+    def default_member(self, default_member):
+        self._default_member.value = default_member
+
+    @property
+    def member_reader_class(self):
+        return self._member_reader_class
+
+    @member_reader_class.setter
+    def member_reader_class(self, member_reader_class):
+        self._member_reader_class.value = member_reader_class
+
+    @property
+    def caption(self):
+        return self._caption
+
+    @caption.setter
+    def caption(self, caption):
+        self._caption.value = caption
+
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        self._description.value = description
+
+    @property
+    def unique_key_level_name(self):
+        return self._unique_key_level_name
+
+    @unique_key_level_name.setter
+    def unique_key_level_name(self, unique_key_level_name):
+        self._unique_key_level_name.value = unique_key_level_name
+
+    @property
+    def table(self):
+        return self._atable
+
+    @table.setter
+    def tale(self, table):
+        self._atable = table
+        
     def add_level(self, level, level_position=None):
         for e in self._levels:
             if e.name == level.name:
@@ -216,6 +338,15 @@ class Hierarchy(SchemaElement):
             self._levels.append(level)
         else:
             self._levels.insert(level_position, level)
+
+    def remove_level(self, level):
+        super(Hierarchy, self)._remove_child(level, self._levels, type(Level))
+
+    def get_level(self, level_name):
+        for e in self._levels:
+            if e.name == level_name:
+                return e
+        return None
 
 
 class CubeDimension(SchemaElement):
@@ -334,11 +465,29 @@ class Dimension(CubeDimension):
 
 class Level(SchemaElement):
     def __init__(self, name, column=None, name_column=None, visible=True,
-                 level_type='Regular'):
+                 level_type='Regular', approx_row_count=None, table=None,
+                 ordinal_column=None, parent_column=None, ttype=None,
+                 null_parent_value=None, internal_type=None, formatter=None,
+                 unique_members=False, hide_member_if=None, caption=None,
+                 description=None, caption_column=None):
         SchemaElement.__init__(self, name)
         self._column = Attribute('column', column)
         self._name_column = Attribute('nameColumn', name_column)
         self._level_type = Attribute('levelType', level_type)
+        self._approx_row_count = Attribute('approxRowCount', approx_row_count)
+        self._table = Attribute('table', table)
+        self._ordinal_column = Attribute('ordinalColumn', ordinal_column)
+        self._parent_column = Attribute('parentColumn', parent_column)
+        self._type = Attribute('type', ttype)
+        self._null_parent_value = Attribute('nullParentValue',
+                                             null_parent_value)
+        self._internal_type = Attribute('internalType', internal_type)
+        self._formatter = Attribute('formatter', formatter)
+        self._unique_members = Attribute('uniqueMembers', unique_members)
+        self._hide_member_if = Attribute('hideMemberIf', hide_member_if)
+        self._caption = Attribute('caption', caption)
+        self._description = Attribute('description', description)
+        self._caption_column = Attribute('captionColumn', caption_column)
 
     @property
     def column(self):
@@ -366,10 +515,18 @@ class Level(SchemaElement):
 
 
 class Measure(SchemaElement):
-    def __init__(self, name, column=None, aggregator='sum'):
+    def __init__(self, name, column=None, aggregator='sum', datatype=None,
+                 format_string=None, formatter=None, caption=None,
+                 description=None, visible=True):
         SchemaElement.__init__(self, name)
         self._column = Attribute('column', column)
         self._aggregator = Attribute('aggregator', aggregator)
+        self._datatype = Attribute('datatype', datatype)
+        self._format_string = Attribute('formatString', format_string)
+        self._formatter = Attribute('formatter', formatter)
+        self._caption = Attribute('caption', caption)
+        self._description = Attribute('description', description)
+        self._visible = Attribute('visible', visible)
 
     @property
     def column(self):
@@ -387,3 +544,50 @@ class Measure(SchemaElement):
     def aggregator(self, aggregator):
         self._aggregator.value = aggregator
 
+    @property
+    def datatype(self):
+        return self._datatype
+
+    @datatype.setter
+    def datatype(self, datatype):
+        self._datatype.value = datatype
+
+    @property
+    def format_string(self):
+        return self._format_string
+
+    @format_string.setter
+    def format_string(self, format_string):
+        self._format_string.value = format_string
+
+    @property
+    def formatter(self):
+        return self._formatter
+
+    @formatter.setter
+    def formatter(self, formatter):
+        self._formatter.value = formatter
+
+    @property
+    def caption(self):
+        return self._caption
+
+    @caption.setter
+    def caption(self, caption):
+        self._caption.value = caption
+
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        self._description.value = description
+
+    @property
+    def visible(self):
+        return self._visible
+
+    @visible.setter
+    def visible(self, visible):
+        self._visible.value = visible

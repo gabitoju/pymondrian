@@ -514,6 +514,7 @@ class Level(SchemaElement):
     def level_type(self, level_type):
         self._level_type.value = level_type
 
+    @property
     def approx_row_count(self):
         return self._approx_row_count
 
@@ -521,6 +522,7 @@ class Level(SchemaElement):
     def approx_row_count(self, approx_row_count):
         self._approx_row_count.value = approx_row_count
 
+    @property
     def table(self):
         return self._table
 
@@ -528,6 +530,7 @@ class Level(SchemaElement):
     def table(self, table):
         self._table.value = table
 
+    @property
     def ordinal_column(self):
         return self._ordinal_column
 
@@ -535,6 +538,7 @@ class Level(SchemaElement):
     def ordinal_column(self, ordinal_column):
         self._ordinal_column.value = ordinal_column
 
+    @property
     def parent_column(self):
         return self._parent_column
 
@@ -542,6 +546,7 @@ class Level(SchemaElement):
     def parent_column(self, parent_column):
         self._parent_column.value = parent_column
 
+    @property
     def ttype(self):
         return self._type
 
@@ -549,6 +554,7 @@ class Level(SchemaElement):
     def ttype(self, ttype):
         self._type.value = ttype
 
+    @property
     def null_parent_value(self):
         return self._null_parent_value
 
@@ -556,6 +562,7 @@ class Level(SchemaElement):
     def null_parent_value(self, null_parent_value):
         self._null_parent_value.value = null_parent_value
 
+    @property
     def internal_type(self):
         return self._internal_type
 
@@ -563,6 +570,7 @@ class Level(SchemaElement):
     def internal_type(self, internal_type):
         self._internal_type.value = internal_type
 
+    @property
     def formatter(self):
         return self._formatter
 
@@ -570,6 +578,7 @@ class Level(SchemaElement):
     def formatter(self, formatter):
         self._formatter.value = formatter
 
+    @property
     def unique_members(self):
         return self._unique_members
 
@@ -577,6 +586,7 @@ class Level(SchemaElement):
     def unique_members(self, unique_members):
         self._unique_members.value = unique_members
 
+    @property
     def hide_member_if(self):
         return self._hide_member_if
 
@@ -584,6 +594,7 @@ class Level(SchemaElement):
     def hide_member_if(self, hide_member_if):
         self._hide_member_if.value = hide_member_if
 
+    @property
     def caption(self):
         return self._caption
 
@@ -591,6 +602,7 @@ class Level(SchemaElement):
     def caption(self, caption):
         self._caption.value = caption
 
+    @property
     def description(self):
         return self._description
 
@@ -598,6 +610,7 @@ class Level(SchemaElement):
     def description(self, description):
         self._description.value = description
 
+    @property
     def caption_column(self):
         return self._caption_column
 

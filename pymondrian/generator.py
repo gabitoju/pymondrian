@@ -24,19 +24,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-
+from abc import ABCMeta, abstractmethod
 from xml.etree.ElementTree import tostring
 import xml.dom.minidom
 
 
 def generate(schema, file_name=None, output=0):
-    xml_node = xml.dom.minidom.parseString(tostring(schema.to_xml()))	
+    xml_node = xml.dom.minidom.parseString(tostring(schema.to_xml()))
     if output == 0:
         if not file_name:
             s_file = '{0}.xml'.format(schema.name)
         else:
             s_file = file_name
-        with open(s_file, 'w') as schema_file:            
-            xml_node.writexml(schema_file, indent=' ', addindent='  ', newl='\n')
+        with open(s_file, 'w') as schema_file:
+            xml_node.writexml(schema_file, indent=' ', addindent='  ',
+                              newl='\n')
     else:
         return xml_node.toprettyxml()
+
+
+class DDLGenerator(object):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def generate(self, schema):
+        pass

@@ -150,7 +150,8 @@ class Cube(SchemaElement):
         self._dimensions.append(dimension)
 
     def remove_dimension(self, dimension):
-        super(Cube, self)._remove_child(dimension, self._dimensions, type(Dimension))
+        super(Cube, self)._remove_child(dimension, self._dimensions,
+                                        type(Dimension))
 
     def get_dimension(self, dimension_name):
         for e in self._dimensions:
@@ -213,10 +214,10 @@ class Hierarchy(SchemaElement):
         self._all_level_name = Attribute('allLevelName', all_level_name)
         self._primary_key = Attribute('primaryKey', primary_key)
         self._primary_key_table = Attribute('primaryKeyTable',
-                                             primary_key_table)
+                                            primary_key_table)
         self._default_member = Attribute('defaultMember', default_member)
         self._member_reader_class = Attribute('memberReaderClass',
-                                               member_reader_class)
+                                              member_reader_class)
         self._caption = Attribute('caption', caption)
         self._description = Attribute('description', description)
         self._unique_key_level_name = Attribute('uniqueKeyLevelName',
@@ -327,7 +328,7 @@ class Hierarchy(SchemaElement):
     @table.setter
     def tale(self, table):
         self._atable = table
-        
+
     def add_level(self, level, level_position=None):
         for e in self._levels:
             if e.name == level.name:
@@ -457,10 +458,10 @@ class Dimension(CubeDimension):
         elif type(hierarchy) is Hierarchy:
             hierarchy_index = self._hierarchies.index(hierarchy)
             return self._hierarchies[hierarchy_index]
-                    
+
     def remove_hierarchy(self, hierarchy):
         super(Dimension, self)._remove_child(hierarchy, self._hierarchies,
-              type(Hierarchy))
+                                             type(Hierarchy))
 
 
 class Level(SchemaElement):
@@ -480,7 +481,7 @@ class Level(SchemaElement):
         self._parent_column = Attribute('parentColumn', parent_column)
         self._type = Attribute('type', ttype)
         self._null_parent_value = Attribute('nullParentValue',
-                                             null_parent_value)
+                                            null_parent_value)
         self._internal_type = Attribute('internalType', internal_type)
         self._formatter = Attribute('formatter', formatter)
         self._unique_members = Attribute('uniqueMembers', unique_members)
@@ -512,6 +513,97 @@ class Level(SchemaElement):
     @level_type.setter
     def level_type(self, level_type):
         self._level_type.value = level_type
+
+    def approx_row_count(self):
+        return self._approx_row_count
+
+    @approx_row_count.setter
+    def approx_row_count(self, approx_row_count):
+        self._approx_row_count.value = approx_row_count
+
+    def table(self):
+        return self._table
+
+    @table.setter
+    def table(self, table):
+        self._table.value = table
+
+    def ordinal_column(self):
+        return self._ordinal_column
+
+    @ordinal_column.setter
+    def ordinal_column(self, ordinal_column):
+        self._ordinal_column.value = ordinal_column
+
+    def parent_column(self):
+        return self._parent_column
+
+    @parent_column.setter
+    def parent_column(self, parent_column):
+        self._parent_column.value = parent_column
+
+    def ttype(self):
+        return self._type
+
+    @ttype.setter
+    def ttype(self, ttype):
+        self._type.value = ttype
+
+    def null_parent_value(self):
+        return self._null_parent_value
+
+    @null_parent_value.setter
+    def null_parent_value(self, null_parent_value):
+        self._null_parent_value.value = null_parent_value
+
+    def internal_type(self):
+        return self._internal_type
+
+    @internal_type.setter
+    def internal_type(self, internal_type):
+        self._internal_type.value = internal_type
+
+    def formatter(self):
+        return self._formatter
+
+    @formatter.setter
+    def formatter(self, formatter):
+        self._formatter.value = formatter
+
+    def unique_members(self):
+        return self._unique_members
+
+    @unique_members.setter
+    def unique_members(self, unique_members):
+        self._unique_members.value = unique_members
+
+    def hide_member_if(self):
+        return self._hide_member_if
+
+    @hide_member_if.setter
+    def hide_member_if(self, hide_member_if):
+        self._hide_member_if.value = hide_member_if
+
+    def caption(self):
+        return self._caption
+
+    @caption.setter
+    def caption(self, caption):
+        self._caption.value = caption
+
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        self._description.value = description
+
+    def caption_column(self):
+        return self._caption_column
+
+    @caption_column.setter
+    def caption_column(self, caption_column):
+        self._caption_column.value = caption_column
 
 
 class Measure(SchemaElement):

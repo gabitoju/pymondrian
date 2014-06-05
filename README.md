@@ -24,7 +24,7 @@ The Mondrian schema and the DDL can be generated to a file or to the stdout.
 
 ```python
 from pymondrian.schema import *
-from pymondrian.generator impor generator
+from pymondrian.generator import generator
 from pymondrian.mysql_generator import MySQLGenerator
     
 # Create the schema, cubes, dimensions, hierarchies, levels...
@@ -73,15 +73,17 @@ Using not implemented attributes
 Even though not all the attributes of the available elements have been implemented, it is possible to add them in a very simple way.
 
 This code snippet shows how to do that:
-    
-    # Import the Attribute class
-    from pymondrian.core.attribute import Attribute
 
-    # Let's add the formatString to a meassure
-    format_string = Attribute(xml_attribute_name='formatString', value='####')
-    
-    # Now we assign it to the meassure like this
-    cuantity._format_string = format_string
+```python    
+# Import the Attribute class
+from pymondrian.core.attribute import Attribute
+
+# Let's add the formatString to a meassure
+format_string = Attribute(xml_attribute_name='formatString', value='####')
+
+# Now we assign it to the meassure like this
+cuantity._format_string = format_string
+```
 
 You can name the attribute whatever way you like it but thw following rules must be respected:
 - The xml_attribute_name property should be named as the Mondrian attribute is named

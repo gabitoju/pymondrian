@@ -19,7 +19,7 @@ A working example is available at [https://github.com/gabitoju/pymondrian/blob/m
 Current version features
 -----
 
-PyMondrian 0.1 generates the most basic schema in order to have a working OLAP Mondrian cube.
+PyMondrian 0.2 generates the most basic schema in order to have a working OLAP Mondrian cube.
 
 The available elements are:
 - Schema
@@ -29,7 +29,7 @@ The available elements are:
 - Level
 - Meassure
 
-DDL SQL generation is not yeat supported.
+Basic DDL SQL generation is supported for MySQL.
 
 Using not implemented attributes
 -----
@@ -58,9 +58,9 @@ API
 Todo
 -----
 
-- Implement all the attributes of the current available elements
 - Implement Calculated Member and Key Expressions
-- Implement DDL SQL generator
 - Generate API documentation
 - Improve documentation
 - Implement remaining elements
+- <del>Implement DDL SQL generator</del>
+- <del>Implement all the attributes of the current available elements</del>

@@ -25,8 +25,8 @@ SOFTWARE.
 '''
 
 
-from core.attribute import Attribute
-from core.element import SchemaElement
+from pymondrian.core.attribute import Attribute
+from pymondrian.core.element import SchemaElement
 
 
 class Schema(SchemaElement):
@@ -63,8 +63,8 @@ class Schema(SchemaElement):
         self._default_role.value = default_role
 
     def add_cube(self, cube):
-        for e in self._cubes:
-            if e.name == cube.name:
+        for cub in self._cubes:
+            if cub.name == cube.name:
                 raise Exception('''Cube "{0}" already exists in schema
                                 "{1}"'''.format(cube.name, self.name))
         self._cubes.append(cube)
@@ -73,11 +73,15 @@ class Schema(SchemaElement):
         super(Schema, self)._remove_child(cube, self._cubes, type(Cube))
 
     def get_cube(self, cube_name):
-        for e in self._cubes:
-            if e.name == cube_name:
-                return e
+        for cub in self._cubes:
+            if cub.name == cube_name:
+                return cub
 
         return None
+
+    @property
+    def cubes(self):
+        return self._cubes
 
 
 class Cube(SchemaElement):
@@ -143,8 +147,8 @@ class Cube(SchemaElement):
         self._default_measure = default_measure
 
     def add_dimension(self, dimension):
-        for e in self._dimensions:
-            if e.name == dimension.name:
+        for dim in self._dimensions:
+            if dim.name == dimension.name:
                 raise Exception('''Dimension "{0}" already exists in cube
                                 "{1}"'''.format(dimension.name, self.name))
         self._dimensions.append(dimension)
@@ -154,14 +158,14 @@ class Cube(SchemaElement):
                                         type(Dimension))
 
     def get_dimension(self, dimension_name):
-        for e in self._dimensions:
-            if e.name == dimension_name:
-                return e
+        for dim in self._dimensions:
+            if dim.name == dimension_name:
+                return dim
         return None
 
     def add_measure(self, measure):
-        for e in self._measures:
-            if e.name == measure.name:
+        for mea in self._measures:
+            if mea.name == measure.name:
                 raise Exception('''Measure "{0}" already exists in cube
                                 "{1}"'''.format(measure.name, self.name))
         self._measures.append(measure)
@@ -170,10 +174,18 @@ class Cube(SchemaElement):
         super(Cube, self)._remove_child(measure, self._measures, type(Measure))
 
     def get_measure(self, measure_name):
-        for e in self._measures:
-            if e.name == measure_name:
-                return e
+        for mea in self._measures:
+            if mea.name == measure_name:
+                return mea
         return None
+
+    @property
+    def dimensions(self):
+        return self._dimensions
+
+    @property
+    def measures(self):
+        return self._measures
 
 
 class Table(SchemaElement):
@@ -329,9 +341,13 @@ class Hierarchy(SchemaElement):
     def tale(self, table):
         self._atable = table
 
+    @property
+    def levels(self):
+        return self._levels
+
     def add_level(self, level, level_position=None):
-        for e in self._levels:
-            if e.name == level.name:
+        for lvl in self._levels:
+            if lvl.name == level.name:
                 raise Exception('''Level "{0}" already exists in hierarchy
                                 "{1}"'''.format(level.name, self.name))
 
@@ -344,9 +360,9 @@ class Hierarchy(SchemaElement):
         super(Hierarchy, self)._remove_child(level, self._levels, type(Level))
 
     def get_level(self, level_name):
-        for e in self._levels:
-            if e.name == level_name:
-                return e
+        for lvl in self._levels:
+            if lvl.name == level_name:
+                return lvl
         return None
 
 
@@ -400,6 +416,10 @@ class CubeDimension(SchemaElement):
     def high_cardinality(self, high_cardinality):
         self._high_cardinality.value = high_cardinality
 
+    def remove_hierarchy(self, hierarchy):
+        super(Dimension, self)._remove_child(hierarchy, self._hierarchies,
+                                             type(Hierarchy))
+
 
 class Dimension(CubeDimension):
     def __init__(self, name, type="StandardDimension", caption=None,
@@ -429,8 +449,8 @@ class Dimension(CubeDimension):
         self._usage_prefix.value = usage_prefix
 
     def add_hierarchy(self, hierarchy):
-        for e in self._hierarchies:
-            if e.name == hierarchy.name:
+        for hry in self._hierarchies:
+            if hry.name == hierarchy.name:
                 raise Exception('''Hierarchy "{0}" already exists in dimension
                                 "{1}"'''.format(hierarchy.name, self.name))
         self._hierarchies.append(hierarchy)
@@ -441,9 +461,9 @@ class Dimension(CubeDimension):
             self._hierarchies[hierarchy].add_level(level, level_position)
         if type(hierarchy) is str or type(hierarchy) is Hierarchy:
             hierachy_name = str(hierarchy)
-            for h in self._hierarchies:
-                if h.name == hierachy_name:
-                    h.add_level(level, level_position)
+            for hry in self._hierarchies:
+                if hry.name == hierachy_name:
+                    hry.add_level(level, level_position)
 
     def get_hierarchy(self, hierarchy):
         if type(hierarchy) is int:
@@ -451,17 +471,17 @@ class Dimension(CubeDimension):
                 return self._hierarchies[hierarchy]
         elif type(hierarchy) is str:
             hierarchy_index = -1
-            for e in self._hierarchies:
+            for hry in self._hierarchies:
                 hierarchy_index += 1
-                if e.name == hierarchy:
+                if hry.name == hierarchy:
                     return self._hierarchies[hierarchy_index]
         elif type(hierarchy) is Hierarchy:
             hierarchy_index = self._hierarchies.index(hierarchy)
             return self._hierarchies[hierarchy_index]
 
     def remove_hierarchy(self, hierarchy):
-        super(Dimension, self)._remove_child(hierarchy, self._hierarchies,
-                                             type(Hierarchy))
+        super(Dimension, self).remove_child(hierarchy, self._hierarchies,
+                                            type(Hierarchy))
 
 
 class Level(SchemaElement):

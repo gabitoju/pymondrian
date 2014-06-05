@@ -55,6 +55,9 @@ class Attribute(object):
         else:
             return self.value == other
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __str__(self):
         return str(self.value)
 

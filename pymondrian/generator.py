@@ -47,5 +47,5 @@ class DDLGenerator(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def generate(self, schema):
+    def generate(self, schema, file_name=None, output=0):
         pass

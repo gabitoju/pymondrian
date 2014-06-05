@@ -34,8 +34,8 @@ class Annotations(object):
         self._annotations = []
 
     def add(self, annotation, parent):
-        for e in self._annotations:
-            if e.name == annotation.name:
+        for _annot in self._annotations:
+            if _annot.name == annotation.name:
                 raise Exception('''Annotaion "{0}" already exists in object
                                 "{1}"'''.format(annotation.name, parent.name))
         self._annotations.append(annotation)
@@ -46,8 +46,8 @@ class Annotations(object):
     def to_xml(self):
         node = Element(self.__class__.__name__, {})
 
-        for e in self._annotations:
-            node.append(e.to_xml())
+        for _annot in self._annotations:
+            node.append(_annot.to_xml())
 
         return node
 
@@ -101,21 +101,20 @@ class SchemaElement(object):
                 del collection[child]
         elif type(child) is str:
             child_index = -1
-            for e in collection:
+            for _annot in collection:
                 child_index += 1
-                if e.name == child:
+                if _annot.name == child:
                     del collection[child_index]
                     break
         elif isinstance(child, obj_type):
             child_index = collection.index(child)
             del collection[child_index]
-        
 
     def to_xml(self):
         node = Element(self.__class__.__name__, {})
-        for el in dir(self):
-            if el and el.startswith('_'):
-                attr = getattr(self, el)
+        for _el in dir(self):
+            if _el and _el.startswith('_'):
+                attr = getattr(self, _el)
                 if isinstance(attr, Attribute) and attr.value:
                     node.attrib.update(attr.to_xml())
                 elif (isinstance(attr, SchemaElement) or
@@ -129,7 +128,7 @@ class SchemaElement(object):
         return node
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def __eq__(self, other):
         return type(self) == type(other) and self.name == other.name

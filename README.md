@@ -16,6 +16,39 @@ Usage
 
 A working example is available at [https://github.com/gabitoju/pymondrian/blob/master/example.py]().
 
+This examples creates and generates a simple schema with 4 dimensions (Date, Customer, Supplier, Product) and 5 measures (Quantity, Subtotal, Taxes, Total, Subtotal Average).
+
+The data.sql file contains sample data to load into the tables so you can test the schema with an OLAP client such as Saiku o JPivot.
+
+The Mondrian schema and the DDL can be generated to a file or to the stdout.
+
+```python
+from pymondrian.schema import *
+from pymondrian.generator impor generator
+from pymondrian.mysql_generator import MySQLGenerator
+    
+# Create the schema, cubes, dimensions, hierarchies, levels...
+    
+# To stdout 
+print generate(schema, output=1)
+
+# To a file with the schema name as file name
+generate(schema)
+
+# To a file with other name
+generate(schema, file_name='file.xml')
+
+# Generate the DDL to stdout
+mysql_generator = MySQLGenerator()
+print mysql_generator.generate(schema, output=1)
+
+# To a file with the schema name as file name
+mysql_generator.generate(schema)
+
+# To a file with other name
+mysql_generator.generate(schema, file_name='file.sql')
+```
+
 Current version features
 -----
 

@@ -62,7 +62,10 @@ The available elements are:
 - Level
 - Meassure
 
-Basic DDL SQL generation is supported for MySQL.
+Basic DDL SQL generation is supported for MySQL via the MySQLGenerator. It generates the basic tables (dimension tables and fact table)
+but it has some limitations:
+- It uses only one hierarchy.
+- If a schema has two cubes and thos cubes share a dimensions, the DDL for the dimensions is generated twice.
 
 Using not implemented attributes
 -----

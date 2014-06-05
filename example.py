@@ -66,8 +66,8 @@ dim_supplier.add_level_to_hierarchy(hierarchy=0, level=sup_name)
 
 sales.add_dimension(dim_supplier)
 
-cuantity = Measure(name='Cuantity', column='Cuantity')
-sales.add_measure(cuantity)
+quantity = Measure(name='Quantity', column='Quantity')
+sales.add_measure(quantity)
 
 subtotal = Measure(name='Subtotal', column='Subtotal', datatype='Numeric')
 sales.add_measure(subtotal)

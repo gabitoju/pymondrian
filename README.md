@@ -14,7 +14,7 @@ The generated schema is based on Mondrian 3 according to the XML model for Mondr
 Usage
 -----
 
-A working example is available at [https://github.com/gabitoju/pymondrian/blob/master/example.py]().
+A working example is available at [https://github.com/gabitoju/pymondrian/blob/master/example.py](https://github.com/gabitoju/pymondrian/blob/master/example.py).
 
 This examples creates and generates a simple schema with 4 dimensions (Date, Customer, Supplier, Product) and 5 measures (Quantity, Subtotal, Taxes, Total, Subtotal Average).
 
@@ -85,7 +85,7 @@ format_string = Attribute(xml_attribute_name='formatString', value='####')
 cuantity._format_string = format_string
 ```
 
-You can name the attribute whatever way you like it but thw following rules must be respected:
+You can name the attribute whatever way you like it but the following rules must be respected:
 - The xml_attribute_name property should be named as the Mondrian attribute is named
 - The property that contains the Attribute instance must start with '_'
 
